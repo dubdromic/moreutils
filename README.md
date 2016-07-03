@@ -24,7 +24,8 @@ Or install it yourself as:
 
 Available tools:
 
-- chronic: Runs a command quietly unless it fails
+- chronic: runs a command quietly unless it fails
+- combine: combine the lines in two files using boolean operations
 
 ## Development
 

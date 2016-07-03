@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "moreutils"
+
+operation = ARGV[1] || 'none given'
+valid_operations = Moreutils::Combine::OPERATIONS.keys
+
+abort("Unknown operation, #{operation}") unless valid_operations.include?(operation.to_sym)
+
+filenames = []
+lines = []
+filenames[0] = ARGV[0] || '-'
+filenames[1] = ARGV[2] || '-'
+
+filenames.reduce(lines) do |result, filename|
+  if filename == '-'
+    result << STDIN.readlines
+  else
+    abort("#{filename}: No such file or directory") if !File.exists?(filename)
+    result << File.foreach(filename).map(&:to_s)
+  end
+end
+
+combine = Moreutils::Combine.new(operation, lines[0], lines[1])
+combine.print
