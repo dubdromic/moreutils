@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "moreutils"
+
+options = Trollop::options do
+  opt :list, 'List all errno values.'
+  opt :search, 'Search for errors whose description contains all the given words (case-insensitive).'
+  stop_on_unknown
+end
+
+if options[:list]
+  Moreutils::Errno.all.map { |s| puts s }
+  exit
+end
+
+result = if options[:search]
+           Moreutils::Errno.search(ARGV.last)
+         else
+           Moreutils::Errno.by_code(ARGV.last) || Moreutils::Errno.by_number(ARGV.last)
+         end
+
+puts result

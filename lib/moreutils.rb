@@ -5,4 +5,5 @@ module Moreutils
   require 'moreutils/util/command'
   require 'moreutils/chronic'
   require 'moreutils/combine'
+  require 'moreutils/errno'
 end
