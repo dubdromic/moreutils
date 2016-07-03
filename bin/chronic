@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "moreutils"
+
+options = Trollop::options do
+  opt :verbose, 'Verbose output (distinguishes between STDOUT and STDERR, also reports RETVAL)'
+  opt :error_trigger, 'Stderr triggering. Triggers output when stderr output length is non-zero.  Without -e chronic needs non-zero return value to trigger output.'
+  stop_on_unknown
+end
+
+result = Moreutils::Chronic.call(ARGV.join(' '), options)
+puts result if result.length > 0

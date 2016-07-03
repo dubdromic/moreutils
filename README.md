@@ -1,8 +1,8 @@
 # Moreutils
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/moreutils`. To experiment with that code, run `bin/console` for an interactive prompt.
+Ruby version of joeyh's [moreutils](http://joeyh.name/code/moreutils/) collection.
 
-TODO: Delete this and the text above, and describe your gem
+Practically, you should just use the actual moreutils collection. This is simply an exercise in translating those utils to Ruby.
 
 ## Installation
 
@@ -22,7 +22,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Available tools:
+
+- chronic: Runs a command quietly unless it fails
 
 ## Development
 
@@ -32,5 +34,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/moreutils.
+Bug reports and pull requests are welcome on GitHub at https://github.com/dubdromic/moreutils.
 

@@ -1,5 +1,6 @@
 require 'moreutils/version'
+require 'trollop'
 
 module Moreutils
-  # Your code goes here...
+  require 'moreutils/chronic'
 end
