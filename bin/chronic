@@ -9,5 +9,6 @@ options = Trollop::options do
   stop_on_unknown
 end
 
-result = Moreutils::Chronic.call(ARGV.join(' '), options)
-puts result if result.length > 0
+command = Command.new ARGV.join(' ')
+chronic = Moreutils::Chronic.new(command, options)
+chronic.print

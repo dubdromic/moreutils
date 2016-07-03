@@ -2,45 +2,37 @@ require 'open3'
 
 module Moreutils
   class Chronic
-    def self.call(command = nil, options = {})
-      new(command, options).call
-    end
-
-    def initialize(command = nil, options = {})
+    def initialize(command, options = {})
       @command = command
       @verbose = !!options[:verbose]
       @error_trigger = !!options[:error_trigger]
     end
 
-    def call
-      run_command
-      return '' if command_successful? 
-      verbose ? verbose_result : error
+    def print(stdout = STDOUT, stderr = STDERR)
+      return if command_successful?
+      if verbose
+        stdout.print verbose_output
+      else
+        stdout.print command.output
+        stderr.print command.error
+      end
     end
 
     private
 
-    attr_reader :command, :verbose, :error_trigger, :out, :error, :process
-
-    def run_command
-      @out, @error, @process = Open3.capture3 command
-    end
+    attr_reader :command, :verbose, :error_trigger
 
     def command_successful?
-      error_trigger ? error.to_s.length > 0 : retval == 0
+      error_trigger ? !command.error? : command.returned_normally?
     end
 
-    def retval
-      process.exitstatus.to_i
-    end
-
-    def verbose_result
-      output = [
-        "STDOUT:\n#{out}",
-        "STDERR:\n#{error}",
-        "RETVAL: #{process.exitstatus}"
+    def verbose_output
+      result = [
+        "STDOUT:\n#{command.output}",
+        "STDERR:\n#{command.error}",
+        "RETVAL: #{command.return_value}",
       ]
-      output.join("\n")
+      result.join("\n") + "\n"
     end
   end
 end

@@ -2,26 +2,43 @@ require 'test_helper'
 
 module Moreutils
   class ChronicTest < Minitest::Test
-    def test_successful_command_is_quiet
-      result = Moreutils::Chronic.call 'true'
-      assert(result == '')
+    def test_good_command_is_quiet
+      command = Command.new 'true'
+      chronic = Moreutils::Chronic.new command
+      assert_output('', '') { chronic.print }
     end
 
-    def test_unsuccessful_command_is_loud
-      result = Moreutils::Chronic.call 'ls -8'
-      assert(result =~ /invalid/)
+    def test_bad_command_is_loud
+      command = Command.new 'ls -8'
+      chronic = Moreutils::Chronic.new command
+      assert_output('', /invalid/) { chronic.print($stdout, $stderr) }
     end
 
-    def test_verbose_successful_command_is_quiet
-      result = Moreutils::Chronic.call('true', verbose: true)
-      assert(result == '')
+    def test_verbose_good_command_is_quiet
+      command = Command.new 'true'
+      chronic = Moreutils::Chronic.new(command, verbose: true)
+      assert_output('', '') { chronic.print }
     end
 
-    def test_verbose_unsuccessful_command_is_loud
-      result = Moreutils::Chronic.call('ls -8', verbose: true)
-      assert(result =~ /STDOUT:\n/)
-      assert(result =~ /STDERR:\n.*invalid/)
-      assert(result =~ /RETVAL: 2/)
+    def test_verbose_bad_command_is_loud
+      command = Command.new 'ls -8'
+      chronic = Moreutils::Chronic.new(command, verbose: true)
+      assert_output(/STDOUT/, nil) { chronic.print($stdout, $stderr) }
+    end
+
+    # Stub command.error? to test if error_trigger is being checked
+    # This "knows" about the logic; perhaps Command can make this
+    # decision?
+    def test_error_trigger_flag_uses_error_presence
+      command = TestCommand.new
+      chronic = Moreutils::Chronic.new(command, error_trigger: true)
+      assert_output('', '') { chronic.print }
+    end
+
+    class TestCommand
+      def error?
+        false
+      end
     end
   end
 end
