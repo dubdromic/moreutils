@@ -6,4 +6,5 @@ module Moreutils
   require 'moreutils/chronic'
   require 'moreutils/combine'
   require 'moreutils/errno'
+  require 'moreutils/ifne'
 end

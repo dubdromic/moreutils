@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "moreutils"
+
+options = Trollop::options do
+  opt :inverse, 'Reverse operation. Run the command if standard input is empty.', short: :n
+  stop_on_unknown
+end
+
+command = Command.new ARGV.join(' ')
+ifne = Moreutils::Ifne.new(command, options)
+print ifne.run(STDIN)
