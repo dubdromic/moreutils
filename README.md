@@ -27,6 +27,7 @@ Available tools:
 - chronic: runs a command quietly unless it fails
 - combine: combine the lines in two files using boolean operations
 - errno: look up errno names and descriptions
+- isne: run command if the standard input is not empty
 
 ## Development
 
