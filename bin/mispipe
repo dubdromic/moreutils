@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "moreutils"
+
+abort('Invalid first command') if ARGV[0] == ''
+abort('Invalid second command') if ARGV[1] == ''
+
+first_command = Command.new ARGV[0]
+second_command = Command.new ARGV[1]
+
+mispipe = Moreutils::Mispipe.new(first_command, second_command)
+exit mispipe.run
